@@ -242,17 +242,26 @@ body {
   width: 100%;
   padding: 11px 12px;
   border: 2px solid #181818;
-  background: #faf8f5;
+  background-color: #faf8f5 !important;
+  color: #181818 !important;
+   caret-color: #ff5722; /* Оранжевый курсор при вводе */
   font-size: 0.95rem;
   font-family: inherit;
   font-weight: 600;
+}
+
+.field-row input::placeholder,
+.field-row textarea::placeholder {
+  color: #777777;
+  opacity: 1;
 }
 
 .field-row input:focus,
 .field-row select:focus,
 .field-row textarea:focus {
   outline: none;
-  background: #fff;
+  background-color: #ffffff !important;
+  color: #181818 !important;
   box-shadow: 4px 4px 0px #ff5722;
 }
 
