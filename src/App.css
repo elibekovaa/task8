@@ -242,29 +242,23 @@ body {
 .field-row select,
 .field-row textarea {
   width: 100%;
-  padding: 11px 12px;
-  border: 2px solid #181818;
-  background-color: #faf8f5 !important;
-  color: #181818 !important;
-  caret-color: #ff5722; /* Оранжевый курсор при вводе */
-  font-size: 0.95rem;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 2px solid #286658 !important;
+  background-color: #ffffff !important; /* Белый фон */
+  color: #000000 !important; /* Чёрный текст */
+  -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000 !important;
+  font-size: 1rem;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .field-row input::placeholder,
 .field-row textarea::placeholder {
-  color: #777777;
+  color: #777777 !important;
+  -webkit-text-fill-color: #777777 !important;
   opacity: 1;
-}
-
-.field-row input:focus,
-.field-row select:focus,
-.field-row textarea:focus {
-  outline: none;
-  background-color: #ffffff !important;
-  color: #181818 !important;
-  box-shadow: 4px 4px 0px #ff5722;
 }
 
 /* --- КАРТОЧКА ПРОФИЛЯ МУЗЫКАНТА --- */

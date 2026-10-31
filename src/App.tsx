@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent, type CSSProperties } from 'react';
 import './App.css';
 
 const API_BASE_URL = 'https://inai-col2.fishrungames.com';
@@ -9,6 +9,19 @@ const ENDPOINTS = {
   logout: `${API_BASE_URL}/api/logout/`,
   profile: `${API_BASE_URL}/api/profile/`,
   specializations: `${API_BASE_URL}/api/specializations/`,
+};
+
+// Жёсткий стиль для всех полей ввода: белый текст на угольно-чёрном фоне
+const inputStyle: CSSProperties = {
+  backgroundColor: '#181818',
+  color: '#ffffff',
+  WebkitTextFillColor: '#ffffff',
+  caretColor: '#ff5722',
+  border: '2px solid #181818',
+  padding: '12px 14px',
+  fontSize: '1rem',
+  fontWeight: 700,
+  width: '100%',
 };
 
 interface SpecializationItem {
@@ -32,26 +45,21 @@ interface MusicianData {
 type Mode = 'login' | 'register';
 
 function App() {
-  // Состояние плашки загрузки
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingStep, setLoadingStep] = useState<string>('Загрузка студии...');
 
-  // Авторизация и режим
   const [isLogged, setIsLogged] = useState<boolean>(
     Boolean(localStorage.getItem('band_session'))
   );
   const [mode, setMode] = useState<Mode>('login');
 
-  // Сообщения
   const [errorText, setErrorText] = useState<string | null>(null);
   const [okText, setOkText] = useState<string | null>(null);
 
-  // Поля входа/регистрации
   const [usernameInput, setUsernameInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
 
-  // Данные профиля и список специализаций с бэкенда
   const [musician, setMusician] = useState<MusicianData | null>(null);
   const [specList, setSpecList] = useState<SpecializationItem[]>([
     { value: 'vocal', label: 'Вокал' },
@@ -62,7 +70,6 @@ function App() {
     { value: 'other', label: 'Другое' },
   ]);
 
-  // Режим редактирования профиля
   const [editMode, setEditMode] = useState<boolean>(false);
   const [firstNameForm, setFirstNameForm] = useState<string>('');
   const [specForm, setSpecForm] = useState<string>('other');
@@ -76,7 +83,6 @@ function App() {
     setLoading(true);
   };
 
-  // Подгружаем список специализаций и профиль при старте
   useEffect(() => {
     fetchSpecializations();
     if (isLogged) {
@@ -84,7 +90,6 @@ function App() {
     }
   }, [isLogged]);
 
-  // Получение списка специализаций (GET /api/specializations/)
   const fetchSpecializations = async () => {
     try {
       const res = await fetch(ENDPOINTS.specializations);
@@ -99,11 +104,10 @@ function App() {
         }
       }
     } catch {
-      // Используем дефолтный список, если эндпоинт недоступен
+      // Оставляем дефолтный список
     }
   };
 
-  // Заполнение стейта формы данными из ответа сервера
   const syncProfileState = (data: MusicianData) => {
     setMusician(data);
     setFirstNameForm(data.profile?.first_name || '');
@@ -112,7 +116,6 @@ function App() {
     setFeeForm(String(data.profile?.fee ?? '0.00'));
   };
 
-  // 1. ПРОСМОТР ПРОФИЛЯ (GET /api/profile/)
   const loadMyProfile = async () => {
     triggerLoader('Синхронизация профиля музыканта...');
     try {
@@ -138,7 +141,6 @@ function App() {
     }
   };
 
-  // 2. РЕГИСТРАЦИЯ (POST /api/register/)
   const onRegisterSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     triggerLoader('Регистрируем нового участника группы...');
@@ -173,7 +175,6 @@ function App() {
     }
   };
 
-  // 3. ВХОД В СИСТЕМУ (POST /api/login/)
   const onLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     triggerLoader('Проверяем пропуск в студию...');
@@ -209,13 +210,11 @@ function App() {
     }
   };
 
-  // 4. РЕДАКТИРОВАНИЕ ПРОФИЛЯ (PATCH /api/profile/)
   const onUpdateProfileSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     triggerLoader('Обновляем карточку музыканта...');
 
     try {
-      // Отправляем поля и на верхнем уровне, и внутри объекта profile для 100% совместимости со схемой PatchedProfile
       const payload = {
         first_name: firstNameForm,
         specialization: specForm,
@@ -242,7 +241,6 @@ function App() {
         throw new Error(data.detail || 'Ошибка при сохранении профиля');
       }
 
-      // Если сервер вернул обновленный объект пользователя или сам профиль
       if (data.profile) {
         syncProfileState(data);
       } else {
@@ -271,7 +269,6 @@ function App() {
     }
   };
 
-  // 5. ВЫХОД ИЗ СИСТЕМЫ (POST /api/logout/)
   const onLogoutClick = async () => {
     triggerLoader('Закрываем смену в студии...');
     try {
@@ -292,7 +289,21 @@ function App() {
 
   return (
     <div>
-      {/* ПЛАШКА ЗАГРУЗКИ (ЭКВАЛАЙЗЕР) */}
+      {/* Встроенная защита цвета инпутов от любых конфликтов стилей */}
+      <style>{`
+        input, select, textarea {
+          background-color: #181818 !important;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          caret-color: #ff5722 !important;
+        }
+        input::placeholder, textarea::placeholder {
+          color: #9e9e9e !important;
+          -webkit-text-fill-color: #9e9e9e !important;
+          opacity: 1 !important;
+        }
+      `}</style>
+
       {loading && (
         <div className="loader-backdrop">
           <div className="loader-modal">
@@ -307,12 +318,10 @@ function App() {
         </div>
       )}
 
-      {/* ВЕРХНЯЯ ПОЛОСА */}
       <div className="top-Ribbon">
         SOLAR VINYL COLLECTIVE • ANALOG SOUND STUDIO & WORLD TOUR 2026 • BISHKEK / BERLIN
       </div>
 
-      {/* ШАПКА */}
       <header className="studio-header">
         <div className="brand-title">
           <span>💿 SOLAR VINYL</span>
@@ -354,9 +363,7 @@ function App() {
         </div>
       </header>
 
-      {/* РАБОЧАЯ ОБЛАСТЬ */}
       <main className="workspace">
-        {/* ЛЕВАЯ КОЛОНКА: КАБИНЕТ МУЗЫКАНТА / АВТОРИЗАЦИЯ */}
         <aside className="panel-box">
           {errorText && <div className="notice notice-err">{errorText}</div>}
           {okText && <div className="notice notice-ok">{okText}</div>}
@@ -370,8 +377,9 @@ function App() {
                 <div className="field-row">
                   <label>Никнейм музыканта (Username)</label>
                   <input
+                    style={inputStyle}
                     type="text"
-                    placeholder="Например: Aiba"
+                    placeholder="Введите логин"
                     value={usernameInput}
                     onChange={(e) => setUsernameInput(e.target.value)}
                     required
@@ -380,8 +388,9 @@ function App() {
                 <div className="field-row">
                   <label>Пароль</label>
                   <input
+                    style={inputStyle}
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="Введите пароль"
                     value={passwordInput}
                     onChange={(e) => setPasswordInput(e.target.value)}
                     required
@@ -403,6 +412,7 @@ function App() {
                 <div className="field-row">
                   <label>Придумайте Username</label>
                   <input
+                    style={inputStyle}
                     type="text"
                     placeholder="Ваш сценический ник"
                     value={usernameInput}
@@ -413,6 +423,7 @@ function App() {
                 <div className="field-row">
                   <label>Контактный Email</label>
                   <input
+                    style={inputStyle}
                     type="email"
                     placeholder="band@solarvinyl.org"
                     value={emailInput}
@@ -422,6 +433,7 @@ function App() {
                 <div className="field-row">
                   <label>Пароль</label>
                   <input
+                    style={inputStyle}
                     type="password"
                     placeholder="Минимум 6 символов"
                     value={passwordInput}
@@ -439,7 +451,6 @@ function App() {
               </form>
             )
           ) : (
-            /* ПРОСМОТР И РЕДАКТИРОВАНИЕ ПРОФИЛЯ УЧАСТНИКА ГРУППЫ */
             <div>
               <div className="panel-heading">
                 <span>🎛️ Профиль музыканта</span>
@@ -497,6 +508,7 @@ function App() {
                   <div className="field-row">
                     <label>Ваше имя (First Name)</label>
                     <input
+                      style={inputStyle}
                       type="text"
                       value={firstNameForm}
                       onChange={(e) => setFirstNameForm(e.target.value)}
@@ -506,7 +518,11 @@ function App() {
 
                   <div className="field-row">
                     <label>Специализация в группе</label>
-                    <select value={specForm} onChange={(e) => setSpecForm(e.target.value)}>
+                    <select
+                      style={inputStyle}
+                      value={specForm}
+                      onChange={(e) => setSpecForm(e.target.value)}
+                    >
                       {specList.map((sp) => (
                         <option key={sp.value} value={sp.value}>
                           {sp.label}
@@ -518,6 +534,7 @@ function App() {
                   <div className="field-row">
                     <label>Гонорар (Fee $)</label>
                     <input
+                      style={inputStyle}
                       type="number"
                       step="0.01"
                       value={feeForm}
@@ -528,6 +545,7 @@ function App() {
                   <div className="field-row">
                     <label>О себе / Инструменты (Bio)</label>
                     <textarea
+                      style={inputStyle}
                       rows={3}
                       value={bioForm}
                       onChange={(e) => setBioForm(e.target.value)}
@@ -557,7 +575,6 @@ function App() {
           )}
         </aside>
 
-        {/* ПРАВАЯ КОЛОНКА: ПРОМО САЙТА ГРУППЫ */}
         <section>
           <div className="poster-banner">
             <h1>ЗВУК НАСТОЯЩЕГО АНАЛОГА</h1>
