@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   background-color: #f6f3ec;
   color: #181818;
   line-height: 1.5;
@@ -145,7 +145,9 @@ body {
   color: #181818;
   cursor: pointer;
   box-shadow: 3px 3px 0px #181818;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
 }
 
 .retro-btn:hover:not(:disabled) {
@@ -244,7 +246,7 @@ body {
   border: 2px solid #181818;
   background-color: #faf8f5 !important;
   color: #181818 !important;
-   caret-color: #ff5722; /* Оранжевый курсор при вводе */
+  caret-color: #ff5722; /* Оранжевый курсор при вводе */
   font-size: 0.95rem;
   font-family: inherit;
   font-weight: 600;
