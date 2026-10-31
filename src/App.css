@@ -1,0 +1,369 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f6f3ec;
+  color: #181818;
+  line-height: 1.5;
+}
+
+/* --- НОВАЯ ПЛАШКА ЗАГРУЗКИ (ЭКВАЛАЙЗЕР) --- */
+.loader-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(246, 243, 236, 0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-modal {
+  background: #ffffff;
+  border: 3px solid #181818;
+  box-shadow: 8px 8px 0px #ff5722;
+  padding: 28px 36px;
+  text-align: center;
+  max-width: 340px;
+}
+
+.eq-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  height: 36px;
+  margin-bottom: 16px;
+}
+
+.eq-bar {
+  width: 8px;
+  background: #ff5722;
+  border: 1px solid #181818;
+  animation: bounce 0.6s infinite ease-in-out alternate;
+}
+
+.eq-bar:nth-child(2) {
+  animation-delay: 0.15s;
+  background: #181818;
+}
+.eq-bar:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.eq-bar:nth-child(4) {
+  animation-delay: 0.45s;
+  background: #181818;
+}
+
+@keyframes bounce {
+  0% {
+    height: 8px;
+  }
+  100% {
+    height: 36px;
+  }
+}
+
+.loader-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- ВЕРХНЯЯ БЕГУЩАЯ СТРОКА И ШАПКА --- */
+.top-Ribbon {
+  background: #181818;
+  color: #f6f3ec;
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.studio-header {
+  max-width: 1180px;
+  margin: 24px auto 0;
+  padding: 20px 28px;
+  background: #ffffff;
+  border: 3px solid #181818;
+  box-shadow: 6px 6px 0px #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vinyl-badge {
+  background: #ff5722;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border: 2px solid #181818;
+  text-transform: uppercase;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-pill {
+  background: #f6f3ec;
+  border: 2px solid #181818;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* --- КНОПКИ В БРУТАЛИСТ-СТИЛЕ --- */
+.retro-btn {
+  padding: 10px 18px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border: 2px solid #181818;
+  background: #ffffff;
+  color: #181818;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #181818;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.retro-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #181818;
+}
+
+.retro-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #181818;
+}
+
+.retro-btn-accent {
+  background: #ff5722;
+  color: #ffffff;
+}
+
+.retro-btn-dark {
+  background: #181818;
+  color: #ffffff;
+}
+
+/* --- ОСНОВНАЯ СЕТКА (САЙДБАР СЛЕВА + КОНТЕНТ СПРАВА) --- */
+.workspace {
+  max-width: 1180px;
+  margin: 28px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel-box {
+  background: #ffffff;
+  border: 3px solid #181818;
+  box-shadow: 6px 6px 0px #181818;
+  padding: 28px;
+}
+
+.panel-heading {
+  font-size: 1.35rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- УВЕДОМЛЕНИЯ --- */
+.notice {
+  padding: 12px 14px;
+  border: 2px solid #181818;
+  font-weight: 700;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+.notice-err {
+  background: #ffd6d6;
+  color: #900000;
+}
+
+.notice-ok {
+  background: #d4f8d4;
+  color: #095d09;
+}
+
+/* --- ФОРМЫ И ИНПУТЫ --- */
+.field-row {
+  margin-bottom: 16px;
+}
+
+.field-row label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.field-row input,
+.field-row select,
+.field-row textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 2px solid #181818;
+  background: #faf8f5;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.field-row input:focus,
+.field-row select:focus,
+.field-row textarea:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 4px 4px 0px #ff5722;
+}
+
+/* --- КАРТОЧКА ПРОФИЛЯ МУЗЫКАНТА --- */
+.musician-badge-card {
+  background: #faf8f5;
+  border: 2px solid #181818;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #b5b5b5;
+  font-size: 0.95rem;
+}
+
+.stat-line:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-weight: 800;
+  color: #555;
+}
+
+.stat-val {
+  font-weight: 700;
+  text-align: right;
+}
+
+.bio-box {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 2px solid #181818;
+  font-style: italic;
+}
+
+/* --- ПРАВАЯ КОЛОНКА: ИСТОРИЯ ГРУППЫ, РЕЛИЗЫ, СОСТАВ --- */
+.poster-banner {
+  background: #ff5722;
+  color: #181818;
+  border: 3px solid #181818;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.poster-banner h1 {
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.poster-banner p {
+  font-weight: 700;
+  font-size: 1.05rem;
+  background: #ffffff;
+  display: inline-block;
+  padding: 6px 12px;
+  border: 2px solid #181818;
+}
+
+.albums-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.vinyl-card {
+  border: 2px solid #181818;
+  padding: 16px;
+  background: #faf8f5;
+}
+
+.vinyl-year {
+  display: inline-block;
+  background: #181818;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+
+.vinyl-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.gig-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.gig-table th,
+.gig-table td {
+  border: 2px solid #181818;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.gig-table th {
+  background: #181818;
+  color: #ffffff;
+  text-transform: uppercase;
+}
